@@ -3,6 +3,9 @@ import java.util.ArrayList;
 public class Entrepots {
   private ArrayList<Batiment> batiments = new ArrayList<>();
 
+  Entrepots (){
+
+  }
   public Batiment batimentMax(){
     //retourne le batiment qui contient le plus de boites
 
