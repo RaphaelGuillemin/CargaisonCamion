@@ -8,35 +8,35 @@ public class Main {
   private static File sortie;
   private static Scanner scanner;
   private static Camion camion;
-  private static Entrepots entrepots;
+  private static Entrepot entrepot;
 
   public static void main(String[] args)throws Exception{
       //entree = new File("tp1Input/camionentrepot");    EN COMMENTAIRE CAR NE FONCTIONNE PAS POUR DÉBUG
       //sortie = new File(args[1]);
-      entrepots = new Entrepots();
+      entrepot = new Entrepot();
 
       //creation de l'arraylist des batiments et de leur nombre de boite
       parser();
 
       //remplit le camion
-      int indexBatimentMax = entrepots.batimentMax();
-      Batiment batimentMax = entrepots.getBatiments().get(indexBatimentMax);
+      int indexBatimentMax = entrepot.batimentMax();
+      Batiment batimentMax = entrepot.getBatiments().get(indexBatimentMax);
       camion.changerPos(batimentMax);
       camion.ajouterBoites(batimentMax);
       //defini le batiment comme visite
       batimentMax.setVisite(true);
       //AJOUTER ICI L'INDEX DU BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-      entrepots.getVisites().add(indexBatimentMax);
+      entrepot.getVisites().add(indexBatimentMax);
 
       //procede au reste tant que le camion n'est pas remplit
       while (camion.getCapacite()!=0){
         int indexBatimentProche = camion.distanceMin();
-        Batiment batimentProche = entrepots.getBatiments().get(indexBatimentProche);
+        Batiment batimentProche = entrepot.getBatiments().get(indexBatimentProche);
         camion.changerPos(batimentProche);
         camion.ajouterBoites(batimentProche);
         batimentProche.setVisite(true);
         //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-        entrepots.getVisites().add(indexBatimentProche);
+        entrepot.getVisites().add(indexBatimentProche);
       }
 
       //après ca il faudra utiliser la file pour construire le fichier de sortie
@@ -80,6 +80,6 @@ public class Main {
     String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
     double posLat = Double.parseDouble(coordonnes.split(",")[0]);
     double posLong = Double.parseDouble(coordonnes.split(",")[1]);
-    entrepots.getBatiments().add(new Batiment(posLat,posLong,Integer.parseInt(ligne[0])));
+    entrepot.getBatiments().add(new Batiment(posLat,posLong,Integer.parseInt(ligne[0])));
   }
 }

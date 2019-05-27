@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Entrepots {
+public class Entrepot {
   //contient tous les batiments donnes dans le fichier initial
   private ArrayList<Batiment> batiments;
 
   //contient les indexs des batiments visites pour le fichier final UTILISER UNE FILE SI ON PREFERE
   private ArrayList<Integer> visites;
 
-  Entrepots (){
+  Entrepot(){
     this.batiments = new ArrayList<>();
   }
 
