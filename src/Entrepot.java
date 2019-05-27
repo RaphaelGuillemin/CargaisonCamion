@@ -22,8 +22,13 @@ public class Entrepot {
     return max;
   }
 
-  public ArrayList<Batiment> getBatiments() {
+  public ArrayList<Batiment> getAllBatiments() {
     return this.batiments;
+  }
+
+  // Retourne le batiment a l'index specifie
+  public Batiment getBatiment(int index) {
+    return this.batiments.get(index);
   }
 
   public ArrayList<Integer> getVisites() {
