@@ -13,13 +13,13 @@ public class Tp1 {
   public static void main(String[] args) throws Exception{
       //entree = new File("tp1Input/camionentrepot");    EN COMMENTAIRE CAR NE FONCTIONNE PAS POUR DÉBUG
       //sortie = new File(args[1]);
-      Warehouse warehouse = new Warehouse();
+      warehouse = new Warehouse();
 
       //creation de l'arraylist des batiments et de leur nombre de boite
-      parser();
+      parse();
 
       //remplit le camion
-      int indexMaxBoxes = warehouse.maxBoxes();
+      int indexMaxBoxes = warehouse.indexMaxBoxes();
       Building maxBoxesBuilding = warehouse.getBuilding(indexMaxBoxes);
       truck.changePos(maxBoxesBuilding);
       truck.addBoxes(maxBoxesBuilding);
@@ -30,7 +30,7 @@ public class Tp1 {
 
       //procede au reste tant que le camion n'est pas remplit
       while (truck.getCapacity() != 0){
-        int indexClosestBuilding = truck.minDistance();
+        int indexClosestBuilding = truck.indexMinDistance();
         Building closestBuilding = warehouse.getBuilding(indexClosestBuilding);
         truck.changePos(closestBuilding);
         truck.addBoxes(closestBuilding);
@@ -44,11 +44,11 @@ public class Tp1 {
 
   }
 
-  public static void parser()throws FileNotFoundException{
+  public static void parse()throws FileNotFoundException{
     //if(entree==null){
       //throw new FileNotFoundException("Fichier Introuvable");
     //}
-    Scanner scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
+    scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
 
     //la premiere ligne du fichier donne la capacité du camion et le nombre de boites a transporter
     String line = scanner.nextLine();
@@ -64,19 +64,19 @@ public class Tp1 {
     while (scanner.hasNext()){
       String[] ligne = scanner.nextLine().split(" ");
       if (ligne.length ==2){
-        nouveauBatiment(ligne);
+        newBuilding(ligne);
       } else {
         String[] premier = Arrays.copyOfRange(ligne,0,2);
         String[] deuxieme = Arrays.copyOfRange(ligne,2,4);
-        nouveauBatiment(premier);
-        nouveauBatiment(deuxieme);
+        newBuilding(premier);
+        newBuilding(deuxieme);
       }
     }
 
   }
 
   //fonction qui cree un batiment en fonction des 2 parametres donnes par le fichier
-  public static void nouveauBatiment(String[] ligne){
+  public static void newBuilding(String[] ligne){
     String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
     double posLat = Double.parseDouble(coordonnes.split(",")[0]);
     double posLong = Double.parseDouble(coordonnes.split(",")[1]);

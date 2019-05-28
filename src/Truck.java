@@ -10,7 +10,7 @@ public class Truck {
     this.nBoxesToTransport = nBoxesToTransport;
   }
 
-  public Integer minDistance(){
+  public Integer indexMinDistance(){
     //doit retourner l'index du prochain batiment le plus proche
 
     return 0;

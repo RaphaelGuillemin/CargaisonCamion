@@ -5,13 +5,13 @@ public class Warehouse {
   private ArrayList<Building> buildings;
 
   //contient les indexs des batiments visites pour le fichier final UTILISER UNE FILE SI ON PREFERE
-  private ArrayList<Integer> visitedBuildings;
+  private ArrayList<Integer> visitedBuildings = new ArrayList<>();
 
   public Warehouse(){
     this.buildings = new ArrayList<>();
   }
 
-  public Integer maxBoxes(){
+  public Integer indexMaxBoxes(){
     //retourne l'index du batiment qui contient le plus de boites
     int max = 0;
     for (int i=1;i<this.buildings.size();i++){
