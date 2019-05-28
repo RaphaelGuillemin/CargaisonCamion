@@ -6,57 +6,59 @@ import java.util.Scanner;
 public class Tp1 {
   private static File inputFile;
   private static File outputFile;
-  private static Scanner scanner;
   private static Truck truck;
   private static Warehouse warehouse;
 
-  // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
-  // building's position
-  public static void initialLoad() {
-    //remplit le camion
-    Building maxBoxesBuilding = warehouse.maxBoxes();
-    truck.changePos(maxBoxesBuilding);
-    truck.addBoxes(maxBoxesBuilding);
-    //defini le batiment comme visite
-    maxBoxesBuilding.setVisited(true);
-    //AJOUTER ICI L'INDEX DU BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-    warehouse.getVisitedBuildings().add(maxBoxesBuilding);
-  }
-
-  // Loads the truck after the initial load. The truck's position remains the same.
-  public static void loadTruck() {
-      // TODO: change minDistance method so it returns the building and not its index
-      int indexClosestBuilding = truck.indexMinDistance();
-      Building closestBuilding = warehouse.getBuilding(indexClosestBuilding);
-      truck.addBoxes(closestBuilding);
-      closestBuilding.setVisited(true);
-      //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-      warehouse.getVisitedBuildings().add(closestBuilding);
-  }
 
   public static void main(String[] args) throws Exception{
       //entree = new File("tp1Input/camionentrepot");    EN COMMENTAIRE CAR NE FONCTIONNE PAS POUR DÉBUG
       //sortie = new File(args[1]);
       warehouse = new Warehouse();
 
-      //creation de l'arraylist des batiments et de leur nombre de boite
+      // Creates Arraylist
       parse();
+
+      // Adds boxes from the first building
       initialLoad();
 
-      //procede au reste tant que le camion n'est pas remplit
+      // Adds boxes from the other buildings as long as the Truck isn't full
       while (truck.getCapacity() != 0){
         loadTruck();
       }
+
       //après ca il faudra utiliser la file pour construire le fichier de sortie
+  }
+
+  // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
+  // building's position
+  public static void initialLoad() {
+    // Fills the Truck
+    Building maxBoxesBuilding = warehouse.maxBoxes();
+    truck.changePos(maxBoxesBuilding);
+    truck.addBoxes(maxBoxesBuilding);
+    // Sets building as visited
+    maxBoxesBuilding.setVisited(true);
+    // Adds building to the visited building queue
+    warehouse.getVisitedBuildings().add(maxBoxesBuilding);
+  }
+
+  // Loads the truck after the initial load. The truck's position remains the same.
+  public static void loadTruck() {
+    // TODO: change minDistance method so it returns the building and not its index
+    Building closestBuilding = warehouse.minDistance();
+    truck.addBoxes(closestBuilding);
+    closestBuilding.setVisited(true);
+    //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
+    warehouse.getVisitedBuildings().add(closestBuilding);
   }
 
   public static void parse()throws FileNotFoundException{
     //if(entree==null){
       //throw new FileNotFoundException("Fichier Introuvable");
     //}
-    scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
+    Scanner scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
 
-    //la premiere ligne du fichier donne la capacité du camion et le nombre de boites a transporter
+    // Creates new Truck with number of boxes and capacity
     String line = scanner.nextLine();
     int nbrBoitesDemande = Integer.parseInt(line.split(" ")[0]);
     int capacite = Integer.parseInt(line.split(" ")[1]);
@@ -66,7 +68,7 @@ public class Tp1 {
       System.err.println("The number of boxes to be loaded into the truck exceeds its maximum capacity.");
     }
 
-    //scanne le document au complet et remplit l'arraylist des batiments
+    // Reads file and fills Arraylist with the buildings
     while (scanner.hasNext()){
       String[] ligne = scanner.nextLine().split(" ");
       if (ligne.length ==2){
@@ -78,10 +80,9 @@ public class Tp1 {
         newBuilding(deuxieme);
       }
     }
-
   }
 
-  //fonction qui cree un batiment en fonction des 2 parametres donnes par le fichier
+  // Creates a building with the 2 entrees from the input file
   public static void newBuilding(String[] ligne){
     String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
     double posLat = Double.parseDouble(coordonnes.split(",")[0]);

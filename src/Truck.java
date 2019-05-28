@@ -10,35 +10,31 @@ public class Truck {
     this.nBoxesToTransport = nBoxesToTransport;
   }
 
-  public Integer indexMinDistance(){
-    //doit retourner l'index du prochain batiment le plus proche
-
-    return 0;
-  }
-
+  // Returns the distance between the truck and the building specified
   public double distance(Building building){
-    //retourne la distance entre le camion et le batiment
     return 0.0;
   }
 
+
+  // Adds boxes to the truck and removes them from the building specified
   public void addBoxes(Building building){
-    //ajouter boites au camion et soustraire à la capacité totale du camion
     int num = building.getNBoxes();
     if (num > capacity){
       num = capacity;
     }
     nBoxes += num;
     capacity -= num;
-    //retire les boites du batiment
+    // Remove boxes from the building
     building.removeBoxes(num);
   }
 
+  // Changes truck's position to the building with the most boxes
   public void changePos(Building building){
-    //utilise la position du batiment avec le plus de boite pour définir la sienne
     this.latitudeInit = building.getLatitude();
     this.longitudeInit = building.getLongitude();
   }
 
+  // Returns truck's capacity
   public int getCapacity(){
     return this.capacity;
   }

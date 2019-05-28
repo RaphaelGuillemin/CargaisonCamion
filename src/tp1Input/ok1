@@ -1,0 +1,41 @@
+# Petit fichier
+# de test
+
+1
+2
+3
+=VAR
+
+VAR
+1.0
+-0.5
+=TEST
+
+print VAR
+print TEST
+
+10
+=VAR
+
+-15
+-VAR
+=TEST
+
+print VAR
+print TEST
+
+15
+-17.5
+=ALLO
+
+print ALLO
+
+ALLO
+2.5
+=ALLO
+
+print ALLO
+
+--10
+2-
+10,5

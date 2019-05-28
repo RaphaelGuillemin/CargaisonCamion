@@ -11,8 +11,8 @@ public class Building {
     this.visited = false;
   }
 
+  // Removes boxes from the building
   public void removeBoxes(int num){
-    //retirer nombre de boites mises dans le camion
     this.nBoxes = this.nBoxes - num;
   }
 
