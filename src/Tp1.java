@@ -35,7 +35,6 @@ public class Tp1 {
         closestBuilding.setVisited(true);
         //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
         warehouse.getVisitedBuildings().add(indexClosestBuilding);
-        index++;
       }
 
       //après ca il faudra utiliser la file pour construire le fichier de sortie
