@@ -21,14 +21,18 @@ public class Building {
   }
 
   public double getLatitude() {
-    return latitude;
+    return this.latitude;
   }
 
   public double getLongitude() {
-    return longitude;
+    return this.longitude;
   }
 
   public int getNBoxes() {
-    return nBoxes;
+    return this.nBoxes;
+  }
+
+  public boolean getVisited(){
+    return this.visited;
   }
 }
