@@ -67,7 +67,7 @@ public class Tp1 {
     if (nbrBoitesDemande<=capacite) {
       truck = new Truck(nbrBoitesDemande, capacite);
     } else {
-      System.err.println("le nombre de boite demandé est plus grand que la capacité du camion");
+      System.err.println("The number of boxes to be loaded into the truck exceeds its maximum capacity.");
     }
 
     //scanne le document au complet et remplit l'arraylist des batiments
