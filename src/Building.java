@@ -3,6 +3,7 @@ public class Building {
   private double longitude;
   private int nBoxes;
   private boolean visited;
+  private double distance;
 
   public Building(double latitude, double longitude, int nBoxes) {
     this.latitude = latitude;
@@ -34,5 +35,13 @@ public class Building {
 
   public boolean getVisited(){
     return this.visited;
+  }
+
+  public void setDistance(double distance){
+    this.distance=distance;
+  }
+
+  public double getDistance(){
+    return this.distance;
   }
 }

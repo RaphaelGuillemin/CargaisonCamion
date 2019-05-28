@@ -1,18 +1,16 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Tp1 {
   private static File inputFile;
-  private static File outputFile;
   private static Truck truck;
   private static Warehouse warehouse;
+  private static BufferedWriter writer;
 
 
   public static void main(String[] args) throws Exception{
-      //entree = new File("tp1Input/camionentrepot");    EN COMMENTAIRE CAR NE FONCTIONNE PAS POUR DÉBUG
-      //sortie = new File(args[1]);
+      inputFile = new File(args[0]);
       warehouse = new Warehouse();
 
       // Creates Arraylist
@@ -20,11 +18,14 @@ public class Tp1 {
 
       // Adds boxes from the first building
       initialLoad();
-
+      int index = 1;
       // Adds boxes from the other buildings as long as the Truck isn't full
       while (truck.getCapacity() != 0){
         loadTruck();
+        index++;
       }
+
+      loadOutput(args[1]);
 
       //après ca il faudra utiliser la file pour construire le fichier de sortie
   }
@@ -48,15 +49,16 @@ public class Tp1 {
     Building closestBuilding = warehouse.minDistance();
     truck.addBoxes(closestBuilding);
     closestBuilding.setVisited(true);
+    closestBuilding.setDistance(Math.random());
     //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
     warehouse.getVisitedBuildings().add(closestBuilding);
   }
 
   public static void parse()throws FileNotFoundException{
-    //if(entree==null){
-      //throw new FileNotFoundException("Fichier Introuvable");
-    //}
-    Scanner scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
+    if(inputFile==null){
+      throw new FileNotFoundException("Input file not found");
+    }
+    Scanner scanner = new Scanner(inputFile);
 
     // Creates new Truck with number of boxes and capacity
     String line = scanner.nextLine();
@@ -88,5 +90,22 @@ public class Tp1 {
     double posLat = Double.parseDouble(coordonnes.split(",")[0]);
     double posLong = Double.parseDouble(coordonnes.split(",")[1]);
     warehouse.getAllBuildings().add(new Building(posLat,posLong,Integer.parseInt(ligne[0])));
+  }
+
+  public static void loadOutput(String string) throws FileNotFoundException {
+    try {
+      writer = new BufferedWriter(new FileWriter(string));
+      writer.write("Truck Position:(" + truck.getLatitudeInit() + "," + truck.getLongitudeInit() + ")");
+      while(!warehouse.getVisitedBuildings().isEmpty()){
+        writer.newLine();
+        Building building = warehouse.getVisitedBuildings().remove();
+        writer.write("Distance:"+building.getDistance()+" Number of boxes:"+building.getNBoxes()+" Position:("+building.getLatitude()+","+building.getLongitude()+")");
+      }
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
   }
 }

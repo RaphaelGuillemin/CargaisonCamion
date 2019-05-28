@@ -38,4 +38,12 @@ public class Truck {
   public int getCapacity(){
     return this.capacity;
   }
+
+  public double getLatitudeInit() {
+    return latitudeInit;
+  }
+
+  public double getLongitudeInit() {
+    return longitudeInit;
+  }
 }
