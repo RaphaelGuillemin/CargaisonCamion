@@ -1,17 +1,16 @@
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class Warehouse {
   //contient tous les batiments donnes dans le fichier initial
   private ArrayList<Building> buildings;
-
-  //contient les indexs des batiments visites pour le fichier final UTILISER UNE FILE SI ON PREFERE
-  private ArrayList<Integer> visitedBuildings;
+  private Queue<Building> visitedBuildings; // Contains the buildings visited by the lifts
 
   public Warehouse(){
     this.buildings = new ArrayList<>();
   }
 
-  public Integer maxBoxes(){
+  /*public Integer maxBoxes(){
     //retourne l'index du batiment qui contient le plus de boites
     int max = 0;
     for (int i=1;i<this.buildings.size();i++){
@@ -20,6 +19,20 @@ public class Warehouse {
       }
     }
     return max;
+  } */
+
+  // Returns the building with the most boxes
+  public Building maxBoxes() {
+    int index = 0;
+    int max = getBuilding(index).getNBoxes();
+
+    for (int i = 1; i < getAllBuildings().size() ; i++) {
+      if (getBuilding(i).getNBoxes() > max) {
+        index = i;
+        max = getBuilding(index).getNBoxes();
+      }
+    }
+    return getBuilding(index);
   }
 
   public ArrayList<Building> getAllBuildings() {
@@ -31,7 +44,7 @@ public class Warehouse {
     return this.buildings.get(index);
   }
 
-  public ArrayList<Integer> getVisitedBuildings() {
+  public Queue<Building> getVisitedBuildings() {
     return visitedBuildings;
   }
 }

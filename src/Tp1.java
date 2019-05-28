@@ -10,6 +10,31 @@ public class Tp1 {
   private static Truck truck;
   private static Warehouse warehouse;
 
+  // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
+  // building's position
+  public static void initialLoad() {
+    //remplit le camion
+    Building maxBoxesBuilding = warehouse.maxBoxes();
+    truck.changePos(maxBoxesBuilding);
+    truck.addBoxes(maxBoxesBuilding);
+    //defini le batiment comme visite
+    maxBoxesBuilding.setVisited(true);
+    //AJOUTER ICI L'INDEX DU BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
+    warehouse.getVisitedBuildings().add(maxBoxesBuilding);
+  }
+
+  // Loads the truck after the initial load. The truck's position remains the same.
+  public static void loadTruck() {
+    int indexClosestBuilding = truck.minDistance();
+    Building closestBuilding = warehouse.getBuilding(indexClosestBuilding);
+    truck.addBoxes(closestBuilding);
+    closestBuilding.setVisited(true);
+    //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
+    warehouse.getVisitedBuildings().add(closestBuilding);
+  }
+
+
+
   public static void main(String[] args) throws Exception{
       //entree = new File("tp1Input/camionentrepot");    EN COMMENTAIRE CAR NE FONCTIONNE PAS POUR DÉBUG
       //sortie = new File(args[1]);
@@ -17,26 +42,11 @@ public class Tp1 {
 
       //creation de l'arraylist des batiments et de leur nombre de boite
       parser();
-
-      //remplit le camion
-      int indexMaxBoxes = warehouse.maxBoxes();
-      Building maxBoxesBuilding = warehouse.getBuilding(indexMaxBoxes);
-      truck.changePos(maxBoxesBuilding);
-      truck.addBoxes(maxBoxesBuilding);
-      //defini le batiment comme visite
-      maxBoxesBuilding.setVisited(true);
-      //AJOUTER ICI L'INDEX DU BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-      warehouse.getVisitedBuildings().add(indexMaxBoxes);
+      initialLoad();
 
       //procede au reste tant que le camion n'est pas remplit
       while (truck.getCapacity() != 0){
-        int indexClosestBuilding = truck.minDistance();
-        Building closestBuilding = warehouse.getBuilding(indexClosestBuilding);
-        truck.changePos(closestBuilding);
-        truck.addBoxes(closestBuilding);
-        closestBuilding.setVisited(true);
-        //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
-        warehouse.getVisitedBuildings().add(indexClosestBuilding);
+        loadTruck();
       }
 
       //après ca il faudra utiliser la file pour construire le fichier de sortie
