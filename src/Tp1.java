@@ -6,7 +6,6 @@ public class Tp1 {
   private static File inputFile;
   private static Truck truck;
   private static Warehouse warehouse;
-  private static BufferedWriter writer;
 
 
   public static void main(String[] args) throws Exception{
@@ -18,21 +17,17 @@ public class Tp1 {
 
       // Adds boxes from the first building
       initialLoad();
-      int index = 1;
       // Adds boxes from the other buildings as long as the Truck isn't full
       while (truck.getCapacity() != 0){
         loadTruck();
-        index++;
       }
 
       loadOutput(args[1]);
-
-      //après ca il faudra utiliser la file pour construire le fichier de sortie
   }
 
   // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
   // building's position
-  public static void initialLoad() {
+  private static void initialLoad() {
     // Fills the Truck
     Building maxBoxesBuilding = warehouse.maxBoxes();
     truck.changePos(maxBoxesBuilding);
@@ -44,8 +39,7 @@ public class Tp1 {
   }
 
   // Loads the truck after the initial load. The truck's position remains the same.
-  public static void loadTruck() {
-    // TODO: change minDistance method so it returns the building and not its index
+  private static void loadTruck() {
     Building closestBuilding = warehouse.minDistance();
     truck.addBoxes(closestBuilding);
     closestBuilding.setVisited(true);
@@ -54,7 +48,7 @@ public class Tp1 {
     warehouse.getVisitedBuildings().add(closestBuilding);
   }
 
-  public static void parse()throws FileNotFoundException{
+  private static void parse()throws FileNotFoundException{
     if(inputFile==null){
       throw new FileNotFoundException("Input file not found");
     }
@@ -85,16 +79,16 @@ public class Tp1 {
   }
 
   // Creates a building with the 2 entrees from the input file
-  public static void newBuilding(String[] ligne){
+  private static void newBuilding(String[] ligne){
     String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
     double posLat = Double.parseDouble(coordonnes.split(",")[0]);
     double posLong = Double.parseDouble(coordonnes.split(",")[1]);
     warehouse.getAllBuildings().add(new Building(posLat,posLong,Integer.parseInt(ligne[0])));
   }
 
-  public static void loadOutput(String string) throws FileNotFoundException {
+  private static void loadOutput(String string){
     try {
-      writer = new BufferedWriter(new FileWriter(string));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(string));
       writer.write("Truck Position:(" + truck.getLatitudeInit() + "," + truck.getLongitudeInit() + ")");
       while(!warehouse.getVisitedBuildings().isEmpty()){
         writer.newLine();

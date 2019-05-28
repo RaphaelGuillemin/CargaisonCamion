@@ -2,17 +2,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Warehouse {
+class Warehouse {
 
   private ArrayList<Building> buildings; // Contains all the buildings of the input file
   private Queue<Building> visitedBuildings = new LinkedList<>(); // Contains the buildings visited by the lifts
 
-  public Warehouse(){
+  Warehouse(){
     this.buildings = new ArrayList<>();
   }
 
   // Returns the building with the most boxes
-  public Building maxBoxes() {
+  Building maxBoxes() {
     int index = 0;
     int max = getBuilding(index).getNBoxes();
 
@@ -26,24 +26,24 @@ public class Warehouse {
   }
 
   // Sorts the Array of all the buildings
-  public Building minDistance(){
+  Building minDistance(){
 
 
     return new Building(0,0,0);
   }
 
   // Returns the Arraylist containing all the buildings
-  public ArrayList<Building> getAllBuildings() {
+  ArrayList<Building> getAllBuildings() {
     return this.buildings;
   }
 
   // Returns the building at the index specified
-  public Building getBuilding(int index) {
+  private Building getBuilding(int index) {
     return this.buildings.get(index);
   }
 
   // Returns the Queue of all the buildings visited
-  public Queue<Building> getVisitedBuildings() {
+  Queue<Building> getVisitedBuildings() {
     return visitedBuildings;
   }
 }

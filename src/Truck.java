@@ -17,7 +17,7 @@ public class Truck {
 
 
   // Adds boxes to the truck and removes them from the building specified
-  public void addBoxes(Building building){
+  void addBoxes(Building building){
     int num = building.getNBoxes();
     if (num > capacity){
       num = capacity;
@@ -29,21 +29,21 @@ public class Truck {
   }
 
   // Changes truck's position to the building with the most boxes
-  public void changePos(Building building){
+  void changePos(Building building){
     this.latitudeInit = building.getLatitude();
     this.longitudeInit = building.getLongitude();
   }
 
   // Returns truck's capacity
-  public int getCapacity(){
+  int getCapacity(){
     return this.capacity;
   }
 
-  public double getLatitudeInit() {
+  double getLatitudeInit() {
     return latitudeInit;
   }
 
-  public double getLongitudeInit() {
+  double getLongitudeInit() {
     return longitudeInit;
   }
 }
