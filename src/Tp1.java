@@ -27,16 +27,15 @@ public class Tp1 {
       maxBoxesBuilding.setVisited(true);
       //AJOUTER ICI L'INDEX DU BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
       warehouse.getVisitedBuildings().add(indexMaxBoxes);
-
       //procede au reste tant que le camion n'est pas remplit
-      while (truck.getCapacity() != 0){
+      while (truck.getCapacity() != 0) {
         int indexClosestBuilding = truck.indexMinDistance();
         Building closestBuilding = warehouse.getBuilding(indexClosestBuilding);
-        truck.changePos(closestBuilding);
         truck.addBoxes(closestBuilding);
         closestBuilding.setVisited(true);
         //AJOUTER ICI LE BATIMENT A LA FILE (ARRAYLIST EN CE MOMENT)
         warehouse.getVisitedBuildings().add(indexClosestBuilding);
+        index++;
       }
 
       //après ca il faudra utiliser la file pour construire le fichier de sortie
@@ -48,7 +47,7 @@ public class Tp1 {
     //if(entree==null){
       //throw new FileNotFoundException("Fichier Introuvable");
     //}
-    scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
+    scanner = new Scanner(new File("C:\\Users\\Raph\\Desktop\\camionentrepot1")); //trouver un moyen pour ne pas avoir a faire ca pour le debuggage
 
     //la premiere ligne du fichier donne la capacité du camion et le nombre de boites a transporter
     String line = scanner.nextLine();
