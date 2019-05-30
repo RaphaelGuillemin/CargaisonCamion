@@ -1,4 +1,4 @@
-class Building {
+public class Building {
   private double latitude;
   private double longitude;
   private int nBoxes;

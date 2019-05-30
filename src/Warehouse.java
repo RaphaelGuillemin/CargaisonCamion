@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class Warehouse {
+public class Warehouse {
 
   private ArrayList<Building> buildings; // Contains all the buildings of the input file
   private Queue<Building> visitedBuildings = new LinkedList<>(); // Contains the buildings visited by the lifts
