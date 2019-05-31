@@ -1,13 +1,11 @@
 public class Building {
-  private double latitude;
-  private double longitude;
+  private Coordinates coords;
   private int nBoxes;
   private boolean visited;
-  private double distance;
+  private double distanceFromTruck;
 
   Building(double latitude, double longitude, int nBoxes) {
-    this.latitude = latitude;
-    this.longitude = longitude;
+    this.coords = new Coordinates(latitude, longitude);
     this.nBoxes = nBoxes;
     this.visited = false;
   }
@@ -21,23 +19,19 @@ public class Building {
     this.visited = visited;
   }
 
-  double getLatitude() {
-    return this.latitude;
-  }
-
-  double getLongitude() {
-    return this.longitude;
-  }
-
   int getNBoxes() {
     return this.nBoxes;
   }
 
-  void setDistance(double distance){
-    this.distance=distance;
+  void setDistanceFromTruck(double distance){
+    this.distanceFromTruck = distance;
   }
 
-  double getDistance(){
-    return this.distance;
+  double getDistanceFromTruck(){
+    return this.distanceFromTruck;
+  }
+
+  public Coordinates getCoords() {
+    return this.coords;
   }
 }

@@ -1,8 +1,7 @@
 public class Truck {
   private int capacity;
   private int nBoxesToTransport;
-  private double latitudeInit;
-  private double longitudeInit;
+  private Coordinates coords;
   private int nBoxes;
 
   public Truck(int nBoxesToTransport, int capacity) {
@@ -28,10 +27,9 @@ public class Truck {
     building.removeBoxes(num);
   }
 
-  // Changes truck's position to the building with the most boxes
-  void changePos(Building building){
-    this.latitudeInit = building.getLatitude();
-    this.longitudeInit = building.getLongitude();
+  // Sets the truck's position to the building with the most boxes
+  void setCoords(Building building){
+    this.coords = new Coordinates(building.getCoords().getLatitude(), building.getCoords().getLongitude());
   }
 
   // Returns truck's capacity
@@ -39,11 +37,7 @@ public class Truck {
     return this.capacity;
   }
 
-  double getLatitudeInit() {
-    return latitudeInit;
-  }
-
-  double getLongitudeInit() {
-    return longitudeInit;
+  public Coordinates getCoords() {
+    return this.coords;
   }
 }
