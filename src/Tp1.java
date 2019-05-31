@@ -10,6 +10,7 @@ public class Tp1 {
     public static void main(String[] args) throws Exception{
         inputFile = new File(args[0]);
         warehouse = new Warehouse();
+        ArrayList <Building> buildings = warehouse.getAllBuildings();
 
         // Creates Arraylist
         parse();
@@ -17,11 +18,12 @@ public class Tp1 {
         // Adds boxes from the first building
         initialLoad();
 
+        distanceTruckBuildings(truck, buildings);
+        warehouse.quickSortDistance(buildings, 0, buildings.size() - 1);
 
-
-        // Adds boxes from the other buildings as long as the yruck isn't full
-        while (truck.getCapacity() != 0){
-            loadTruck();
+        // Adds boxes from the other buildings as long as the truck isn't full
+        while (truck.getNBoxes() < truck.getNBoxesToTransport()) {
+            loadTruck(buildings);
         }
 
         loadOutput(args[1]);
@@ -43,45 +45,23 @@ public class Tp1 {
     }
 
     // Loads the truck after the initial load. The truck's position remains the same.
-    private static void loadTruck() {
-        Building closestBuilding = warehouse.minDistance();
+    private static void loadTruck(ArrayList <Building> buildings) {
+        Building closestBuilding = warehouse.closestBuildingToTruck(truck, buildings);
         truck.addBoxes(closestBuilding);
         closestBuilding.setVisited(true);
-        closestBuilding.setDistanceFromTruck(Math.random());
         warehouse.getVisitedBuildings().add(closestBuilding);
     }
 
     // Calculates the distance between the truck and each building and stores it in the building's distanceFromTruck
     // attribute
-    /*private static void distanceTruckBuildings(Truck truck, LinkedList<Building> buildings) {
+    private static void distanceTruckBuildings(Truck truck, ArrayList<Building> buildings) {
         Coordinates truckPos = truck.getCoords();
 
-        ListIterator iter = buildings.listIterator();
-        int lastIndex = -1;
-        while (iter.hasNext()) {
-            Building current = (Building) iter.next();
+        for (int i = 0; i < buildings.size(); i++) {
+            Building current = buildings.get(i);
             current.setDistanceFromTruck(truckPos.distanceTo(current.getCoords()));
-
-            if (lastIndex == -1) {
-                iter.remove();
-                buildings.addFirst(current);
-                lastIndex = 0;
-            } else if(current.getDistanceFromTruck() >= buildings.get(lastIndex).getDistanceFromTruck()){
-                iter.remove();
-                buildings.add(lastIndex, current);
-                lastIndex++;
-            } else if(current.getDistanceFromTruck() < buildings.get(lastIndex).getDistanceFromTruck()) {
-
-            }
         }
-
-
-        //for (Building building : buildings) {
-        //    building.setDistanceFromTruck(truckPos.distanceTo(building.getCoords()));
-        //}
-    } */
-
-
+    }
 
     private static void parse()throws FileNotFoundException{
         if(inputFile == null){

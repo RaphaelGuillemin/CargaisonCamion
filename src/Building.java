@@ -19,6 +19,8 @@ public class Building {
     this.visited = visited;
   }
 
+  public boolean isVisited() { return this.visited; }
+
   int getNBoxes() {
     return this.nBoxes;
   }
