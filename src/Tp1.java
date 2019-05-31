@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Tp1 {
     private static File inputFile;
@@ -55,13 +53,35 @@ public class Tp1 {
 
     // Calculates the distance between the truck and each building and stores it in the building's distanceFromTruck
     // attribute
-    private static void distanceTruckBuildings(Truck truck, ArrayList<Building> buildings) {
+    /*private static void distanceTruckBuildings(Truck truck, LinkedList<Building> buildings) {
         Coordinates truckPos = truck.getCoords();
 
-        for (Building building : buildings) {
-            building.setDistanceFromTruck(truckPos.distanceTo(building.getCoords()));
+        ListIterator iter = buildings.listIterator();
+        int lastIndex = -1;
+        while (iter.hasNext()) {
+            Building current = (Building) iter.next();
+            current.setDistanceFromTruck(truckPos.distanceTo(current.getCoords()));
+
+            if (lastIndex == -1) {
+                iter.remove();
+                buildings.addFirst(current);
+                lastIndex = 0;
+            } else if(current.getDistanceFromTruck() >= buildings.get(lastIndex).getDistanceFromTruck()){
+                iter.remove();
+                buildings.add(lastIndex, current);
+                lastIndex++;
+            } else if(current.getDistanceFromTruck() < buildings.get(lastIndex).getDistanceFromTruck()) {
+
+            }
         }
-    }
+
+
+        //for (Building building : buildings) {
+        //    building.setDistanceFromTruck(truckPos.distanceTo(building.getCoords()));
+        //}
+    } */
+
+
 
     private static void parse()throws FileNotFoundException{
         if(inputFile == null){
