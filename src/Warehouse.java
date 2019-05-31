@@ -4,7 +4,7 @@ import java.util.Queue;
 
 public class Warehouse {
 
-    private Truck truck; // Reference to a truck in the warehouse
+    private int nBoxesLeft; // Total number of boxes left in the warehouse that can be loaded in the truck
     private ArrayList <Building> buildings; // Contains all the buildings of the input file
     private Queue <Building> visitedBuildings = new LinkedList<>(); // Contains the buildings visited by the lifts     // distance to a specific truck.
                                                                               // Implements a Binary Search Tree.
@@ -55,31 +55,47 @@ public class Warehouse {
         }
     }
 
-    public Building findNextUnvisitedBuilding(ArrayList <Building> buildings) {
+    // Returns the index of the next building that has not been visited by the lifts yet. The array must be sorted by
+    // distance before calling method.
+    public int findNextUnvisitedBuilding(ArrayList<Building> buildings) {
         int i = 0;
         Building unvisited = buildings.get(i);
-        while (unvisited.isVisited()) {
+        while (i < buildings.size() && unvisited.isVisited()) {
+            unvisited = buildings.get(i);
             i++;
-            unvisited =  buildings.get(i);
         }
-        return unvisited;
+        if (i == buildings.size()) {
+            System.err.println("All buildings have been visited. There are not enough boxes in the warehouse to load " +
+                    "the truck to desired amount.");
+            return -1;
+        }
+        return i - 1;
     }
 
-    public Building closestBuildingToTruck(Truck truck, ArrayList <Building> buildings) {
-        Building closest = this.findNextUnvisitedBuilding(buildings);
-        int i = buildings.indexOf(closest) + 1;
-        Building current = buildings.get(i);
+    // Returns the index of the closest building to the truck that has not been visited yet. If the closest distance
+    // to the truck is the same for mor than one building, it returns the index of the one with the smallest latitude.
+    // If the latitudes are the same, it returns the one with the smallest longitude.
+    public int closestBuildingToTruck(ArrayList<Building> buildings) {
+        int closestIndex = this.findNextUnvisitedBuilding(buildings);
 
-        while (closest.getDistanceFromTruck() == current.getDistanceFromTruck()) {
-            if (closest.getCoords().getLatitude() > current.getCoords().getLatitude()) {
-                closest = current;
-            } else if (closest.getCoords().getLongitude() > current.getCoords().getLongitude()) {
-                closest = current;
+        if (closestIndex != -1 && closestIndex != buildings.size() - 1) {
+            int currentIndex = closestIndex + 1;
+            Building closestBuilding = buildings.get(closestIndex);
+            Building current = buildings.get(currentIndex);
+
+            while (currentIndex < buildings.size() && (closestBuilding.getDistanceFromTruck() == current.getDistanceFromTruck())) {
+                if (closestBuilding.getCoords().getLatitude() > current.getCoords().getLatitude()) {
+                    closestIndex = currentIndex;
+
+                } else if (closestBuilding.getCoords().getLongitude() > current.getCoords().getLongitude()) {
+                    closestIndex = currentIndex;
+                }
+                currentIndex++;
             }
-            i++;
         }
-        return closest;
+        return closestIndex;
     }
+
 
     // Returns the ArrayList containing all the buildings
     public ArrayList<Building> getAllBuildings() {
@@ -94,5 +110,17 @@ public class Warehouse {
     // Returns the Queue of all the buildings visited
     public Queue<Building> getVisitedBuildings() {
         return visitedBuildings;
+    }
+
+    public int getNBoxesLeft() {
+        return this.nBoxesLeft;
+    }
+
+    public void setNBoxesLeft(int nBoxesLeft) {
+        this.nBoxesLeft = nBoxesLeft;
+    }
+
+    public boolean areAllBuildingsVisited() {
+        return this.visitedBuildings.size() == buildings.size();
     }
 }

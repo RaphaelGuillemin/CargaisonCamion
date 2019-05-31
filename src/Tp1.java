@@ -15,15 +15,25 @@ public class Tp1 {
         // Creates Arraylist
         parse();
 
-        // Adds boxes from the first building
+        // Loads the truck with the boxes of the building with most boxes
         initialLoad();
 
+        // Calculates the distance between the truck and each building
         distanceTruckBuildings(truck, buildings);
+
+        // Sorts the buildings of the warehouse by their distance to the truck
         warehouse.quickSortDistance(buildings, 0, buildings.size() - 1);
 
-        // Adds boxes from the other buildings as long as the truck isn't full
-        while (truck.getNBoxes() < truck.getNBoxesToTransport()) {
-            loadTruck(buildings);
+        // Adds boxes from the other buildings while there are still boxes to transport, the buildings
+        // of the warehouse are not empty and there are still buildings to visit
+        while (truck.getNBoxes() < truck.getNBoxesToTransport() && warehouse.getNBoxesLeft() != 0 &&
+                !warehouse.areAllBuildingsVisited()) {
+            int closestIndex = warehouse.closestBuildingToTruck(buildings);
+            if (closestIndex != -1) {
+                loadTruck(buildings.get(closestIndex));
+            } else {
+                break;
+            }
         }
 
         loadOutput(args[1]);
@@ -35,6 +45,10 @@ public class Tp1 {
         // Fills the Truck
         Building maxBoxesBuilding = warehouse.maxBoxes();
         truck.setCoords(maxBoxesBuilding);
+
+        // Updates the number of boxes left in all the buildings of the warehouse
+        warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() - maxBoxesBuilding.getNBoxes());
+
         truck.addBoxes(maxBoxesBuilding);
 
         // Sets building as visited
@@ -45,8 +59,10 @@ public class Tp1 {
     }
 
     // Loads the truck after the initial load. The truck's position remains the same.
-    private static void loadTruck(ArrayList <Building> buildings) {
-        Building closestBuilding = warehouse.closestBuildingToTruck(truck, buildings);
+    private static void loadTruck(Building closestBuilding) {
+        // Updates the number of boxes left in all the buildings of the warehouse
+        warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() - closestBuilding.getNBoxes());
+
         truck.addBoxes(closestBuilding);
         closestBuilding.setVisited(true);
         warehouse.getVisitedBuildings().add(closestBuilding);
@@ -98,7 +114,9 @@ public class Tp1 {
         String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
         double posLat = Double.parseDouble(coordonnes.split(",")[0]);
         double posLong = Double.parseDouble(coordonnes.split(",")[1]);
-        warehouse.getAllBuildings().add(new Building(posLat,posLong,Integer.parseInt(ligne[0])));
+        int nBoxes = Integer.parseInt(ligne[0]);
+        warehouse.getAllBuildings().add(new Building(posLat, posLong, nBoxes));
+        warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() + nBoxes);
     }
 
     private static void loadOutput(String string){
