@@ -89,36 +89,36 @@ public class Tp1 {
         Scanner scanner = new Scanner(inputFile);
 
         // Creates new Truck with number of boxes and capacity
-        String line = scanner.nextLine();
-        int nbrBoitesDemande = Integer.parseInt(line.split(" ")[0]);
-        int capacite = Integer.parseInt(line.split(" ")[1]);
-        if (nbrBoitesDemande <= capacite) {
-            truck = new Truck(nbrBoitesDemande, capacite);
+        String firstLine = scanner.nextLine();
+        int nBoxesToTransport = Integer.parseInt(firstLine.split(" ")[0]);
+        int capacity = Integer.parseInt(firstLine.split(" ")[1]);
+        if (nBoxesToTransport <= capacity) {
+            truck = new Truck(nBoxesToTransport, capacity);
         } else {
             System.err.println("The number of boxes to be loaded into the truck exceeds its maximum capacity.");
         }
 
         // Reads file and fills Arraylist with the buildings
         while (scanner.hasNext()){
-            String[] ligne = scanner.nextLine().split(" ");
-            if (ligne.length ==2){
-                newBuilding(ligne);
+            String[] line = scanner.nextLine().split(" ");
+            if (line.length == 2) {
+                newBuilding(line);
             } else {
-                String[] premier = Arrays.copyOfRange(ligne,0,2);
-                String[] deuxieme = Arrays.copyOfRange(ligne,2,4);
-                newBuilding(premier);
-                newBuilding(deuxieme);
+                String[] firstBuilding = Arrays.copyOfRange(line, 0, 2);
+                String[] secondBuilding = Arrays.copyOfRange(line, 2, 4);
+                newBuilding(firstBuilding);
+                newBuilding(secondBuilding);
             }
         }
     }
 
     // Creates a building with the 2 entries from the input file
-    private static void newBuilding(String[] ligne){
-        String coordonnes = ligne[1].substring(1,ligne[1].length()-1);
-        double posLat = Double.parseDouble(coordonnes.split(",")[0]);
-        double posLong = Double.parseDouble(coordonnes.split(",")[1]);
-        int nBoxes = Integer.parseInt(ligne[0]);
-        warehouse.getAllBuildings().add(new Building(posLat, posLong, nBoxes));
+    private static void newBuilding(String[] line) {
+        String coords = line[1].substring(1, line[1].length() - 1);
+        double latitude = Double.parseDouble(coords.split(",")[0]);
+        double longitude = Double.parseDouble(coords.split(",")[1]);
+        int nBoxes = Integer.parseInt(line[0]);
+        warehouse.getAllBuildings().add(new Building(latitude, longitude, nBoxes));
         warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() + nBoxes);
     }
 
@@ -138,7 +138,5 @@ public class Tp1 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
