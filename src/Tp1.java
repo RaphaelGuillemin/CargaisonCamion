@@ -130,7 +130,7 @@ public class Tp1 {
             while(!warehouse.getVisitedBuildings().isEmpty()){
                 writer.newLine();
                 Building building = warehouse.getVisitedBuildings().remove();
-                writer.write("Distance:" + building.getDistanceFromTruck() + "\t" + "Number of boxes:"
+                writer.write("Distance:" + Math.round(building.getDistanceFromTruck()*10)/10.0 + "\t" + "Number of boxes:"
                         + building.getNBoxes() + "\t" + "Position:(" + building.getCoords().getLatitude() + ","
                         + building.getCoords().getLongitude() + ")");
             }
