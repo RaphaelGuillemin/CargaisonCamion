@@ -125,13 +125,14 @@ public class Tp1 {
     private static void loadOutput(String string){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(string));
-            writer.write("Truck Position:(" + truck.getCoords().getLatitude() + "," +
+            writer.write("Truck Position: (" + truck.getCoords().getLatitude() + "," +
                     truck.getCoords().getLongitude() + ")");
             while(!warehouse.getVisitedBuildings().isEmpty()){
                 writer.newLine();
                 Building building = warehouse.getVisitedBuildings().remove();
-                writer.write("Distance:" + Math.round(building.getDistanceFromTruck()) + " Number of boxes:" + building.getNBoxes() +
-                        " Position:(" + building.getCoords().getLatitude() + "," + building.getCoords().getLongitude() + ")");
+                writer.write("Distance:" + building.getDistanceFromTruck() + "\t" + "Number of boxes:"
+                        + building.getNBoxes() + "\t" + "Position:(" + building.getCoords().getLatitude() + ","
+                        + building.getCoords().getLongitude() + ")");
             }
             writer.close();
         } catch (IOException e) {
