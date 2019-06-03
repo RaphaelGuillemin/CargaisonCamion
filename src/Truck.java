@@ -9,12 +9,6 @@ public class Truck {
     this.nBoxesToTransport = nBoxesToTransport;
   }
 
-  // Returns the distance between the truck and the building specified
-  public double distance(Building building){
-    return 0.0;
-  }
-
-
   // Adds boxes to the truck and removes them from the building specified
   void addBoxes(Building building){
     int num = building.getNBoxes();
@@ -33,11 +27,6 @@ public class Truck {
   // Sets the truck's position to the building with the most boxes
   void setCoords(Building building){
     this.coords = new Coordinates(building.getCoords().getLatitude(), building.getCoords().getLongitude());
-  }
-
-  // Returns truck's capacity
-  int getCapacity(){
-    return this.capacity;
   }
 
   public Coordinates getCoords() {

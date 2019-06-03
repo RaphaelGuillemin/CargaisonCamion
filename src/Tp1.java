@@ -8,6 +8,7 @@ public class Tp1 {
 
 
     public static void main(String[] args) throws Exception{
+
         inputFile = new File(args[0]);
         warehouse = new Warehouse();
         ArrayList <Building> buildings = warehouse.getAllBuildings();
@@ -37,6 +38,8 @@ public class Tp1 {
         }
 
         loadOutput(args[1]);
+        System.out.println(buildings.size());
+        System.out.println(truck.getNBoxesToTransport());
     }
 
     // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
@@ -127,7 +130,7 @@ public class Tp1 {
             while(!warehouse.getVisitedBuildings().isEmpty()){
                 writer.newLine();
                 Building building = warehouse.getVisitedBuildings().remove();
-                writer.write("Distance:" + building.getDistanceFromTruck() + " Number of boxes:" + building.getNBoxes() +
+                writer.write("Distance:" + Math.round(building.getDistanceFromTruck()) + " Number of boxes:" + building.getNBoxes() +
                         " Position:(" + building.getCoords().getLatitude() + "," + building.getCoords().getLongitude() + ")");
             }
             writer.close();
