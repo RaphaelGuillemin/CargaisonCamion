@@ -5,13 +5,13 @@ public class Truck {
     private int nBoxes;
 
     // Truck constructor
-    public Truck(int nBoxesToTransport, int capacity) {
+    public Truck(int nBoxesToTransport, int capacity) { //Constant
         this.capacity = capacity;
         this.nBoxesToTransport = nBoxesToTransport;
     }
 
     // Adds boxes to the truck and removes them from the building specified
-    void addBoxes(Building building) {
+    void addBoxes(Building building) { //Constant
         int num = building.getNBoxes();
         if (num > this.capacity) {
             num = this.capacity;
@@ -26,7 +26,7 @@ public class Truck {
     }
 
     // Sets the truck's position to the building with the most boxes
-    void setCoords(Building building) {
+    void setCoords(Building building) { // Constant
         this.coords = new Coordinates(building.getCoords().getLatitude(), building.getCoords().getLongitude());
     }
 

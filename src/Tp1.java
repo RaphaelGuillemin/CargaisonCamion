@@ -31,7 +31,7 @@ public class Tp1 {
         // Adds boxes from the other buildings while : there are still boxes to transport, the buildings
         // of the warehouse are not empty and there are still buildings to visit
         while (truck.getNBoxes() < truck.getNBoxesToTransport() && warehouse.getNBoxesLeft() != 0 &&
-                !warehouse.areAllBuildingsVisited()) {
+                !warehouse.areAllBuildingsVisited()) { // Approx n calls
             int closestIndex = warehouse.closestBuildingToTruck(buildings);
             if (closestIndex != -1) {
                 loadTruck(buildings.get(closestIndex));
@@ -76,10 +76,10 @@ public class Tp1 {
 
     // Calculates the distance between the truck and each building and stores it in the building's distanceFromTruck
     // attribute
-    private static void distanceTruckBuildings(Truck truck, ArrayList<Building> buildings) {
+    private static void distanceTruckBuildings(Truck truck, ArrayList<Building> buildings) { //O(n)
         Coordinates truckPos = truck.getCoords();
 
-        for (int i = 0; i < buildings.size(); i++) {
+        for (int i = 0; i < buildings.size(); i++) { //3n
             Building current = buildings.get(i);
             current.setDistanceFromTruck(truckPos.distanceTo(current.getCoords()));
         }
@@ -103,21 +103,21 @@ public class Tp1 {
         }
 
         // Parses the buildings data from the file
-        while (scanner.hasNext()){
-            String[] line = scanner.nextLine().split(" ");
-            if (line.length == 2) {
+        while (scanner.hasNext()) { //6n
+            String[] line = scanner.nextLine().split(" "); //n
+            if (line.length == 2) { //n
                 newBuilding(line);
             } else {
-                String[] firstBuilding = Arrays.copyOfRange(line, 0, 2);
-                String[] secondBuilding = Arrays.copyOfRange(line, 2, 4);
-                newBuilding(firstBuilding);
-                newBuilding(secondBuilding);
+                String[] firstBuilding = Arrays.copyOfRange(line, 0, 2); //n
+                String[] secondBuilding = Arrays.copyOfRange(line, 2, 4); //n
+                newBuilding(firstBuilding); //n
+                newBuilding(secondBuilding); //n
             }
         }
     }
 
     // Creates a building with their position and their number of boxes according to the file
-    private static void newBuilding(String[] line) {
+    private static void newBuilding(String[] line) { //Constant
         String coords = line[1].substring(1, line[1].length() - 1);
         double latitude = Double.parseDouble(coords.split(",")[0]);
         double longitude = Double.parseDouble(coords.split(",")[1]);
@@ -127,17 +127,17 @@ public class Tp1 {
     }
 
     // Outputs the results in a file
-    private static void loadOutput(String outputFilePath) {
+    private static void loadOutput(String outputFilePath) { //Approx 3n
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
             writer.write("Truck Position: (" + truck.getCoords().getLatitude() + "," +
                     truck.getCoords().getLongitude() + ")");
-            while(!warehouse.getVisitedBuildings().isEmpty()){
-                writer.newLine();
-                Building building = warehouse.getVisitedBuildings().remove();
+            while (!warehouse.getVisitedBuildings().isEmpty()) { //3n
+                writer.newLine(); //n
+                Building building = warehouse.getVisitedBuildings().remove(); //n
                 writer.write("Distance:" + Math.round(building.getDistanceFromTruck()*10)/10.0 + "\t" + "Number of boxes:"
                         + building.getNBoxes() + "\t" + "Position:(" + building.getCoords().getLatitude() + ","
-                        + building.getCoords().getLongitude() + ")");
+                        + building.getCoords().getLongitude() + ")"); //n
             }
             writer.close();
         } catch (IOException e) {
