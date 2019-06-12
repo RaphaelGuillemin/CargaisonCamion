@@ -6,8 +6,9 @@ public class Warehouse {
 
     private int nBoxesLeft; // Total number of boxes left in the warehouse that can be loaded in the truck
     private ArrayList <Building> buildings; // Contains all the buildings of the input file
-    private Queue <Building> visitedBuildings = new LinkedList<>(); // Contains the buildings visited by the lifts     // distance to a specific truck.
-                                                                              // Implements a Binary Search Tree.
+    private Queue<Building> visitedBuildings = new LinkedList<>(); // Contains the buildings visited by the lifts
+
+    // distance to a specific truck.
     public Warehouse(){
         this.buildings = new ArrayList<>();
     }
@@ -26,7 +27,7 @@ public class Warehouse {
         return getBuilding(index);
     }
 
-    // Sorts the Array of all the buildings
+    // Sorts the ArrayList of all the buildings by distance (shortest first) using quick sort
     public void quickSortDistance(ArrayList <Building> buildings, int lowIndex, int highIndex) {
         if (buildings != null || buildings.size() != 0) {
             int i = lowIndex;
@@ -65,15 +66,15 @@ public class Warehouse {
             i++;
         }
         if (i == buildings.size()) {
-            //System.err.println("All buildings have been visited. There are not enough boxes in the warehouse to load " +
-                    //"the truck to desired amount.");
+            System.err.println("All buildings have been visited. There are not enough boxes in the warehouse to load "
+                    + "the truck to desired amount.");
             return -1;
         }
         return i - 1;
     }
 
     // Returns the index of the closest building to the truck that has not been visited yet. If the closest distance
-    // to the truck is the same for mor than one building, it returns the index of the one with the smallest latitude.
+    // to the truck is the same for more than one building, it returns the index of the one with the smallest latitude.
     // If the latitudes are the same, it returns the one with the smallest longitude.
     public int closestBuildingToTruck(ArrayList<Building> buildings) {
         int closestIndex = this.findNextUnvisitedBuilding(buildings);
@@ -95,7 +96,6 @@ public class Warehouse {
         }
         return closestIndex;
     }
-
 
     // Returns the ArrayList containing all the buildings
     public ArrayList<Building> getAllBuildings() {
@@ -120,6 +120,7 @@ public class Warehouse {
         this.nBoxesLeft = nBoxesLeft;
     }
 
+    // Returns true if the truck has visited all the buildings in the warehouse
     public boolean areAllBuildingsVisited() {
         return this.visitedBuildings.size() == buildings.size();
     }
