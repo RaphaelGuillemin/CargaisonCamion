@@ -1,23 +1,26 @@
 import java.io.*;
 import java.util.*;
 
+// Tp1 manages the warehouse cargo truck process
 public class Tp1 {
     private static File inputFile;
     private static Truck truck;
     private static Warehouse warehouse;
 
-
     public static void main(String[] args) throws Exception{
 
-        inputFile = new File(args[0]);
+        String inputFilePath = args[0];
+        String outputFilePath = args[1];
+
+        inputFile = new File(inputFilePath);
         warehouse = new Warehouse();
         ArrayList <Building> buildings = warehouse.getAllBuildings();
 
-        // Creates Arraylist
-        parse();
+        // Parses the input file
+        parse(inputFile);
 
-        // Loads the truck with the boxes of the building with most boxes
-        initialLoad();
+        // Loads the truck at the building with the most boxes
+        initialLoad(truck, warehouse);
 
         // Calculates the distance between the truck and each building
         distanceTruckBuildings(truck, buildings);
@@ -25,7 +28,7 @@ public class Tp1 {
         // Sorts the buildings of the warehouse by their distance to the truck
         warehouse.quickSortDistance(buildings, 0, buildings.size() - 1);
 
-        // Adds boxes from the other buildings while there are still boxes to transport, the buildings
+        // Adds boxes from the other buildings while : there are still boxes to transport, the buildings
         // of the warehouse are not empty and there are still buildings to visit
         while (truck.getNBoxes() < truck.getNBoxesToTransport() && warehouse.getNBoxesLeft() != 0 &&
                 !warehouse.areAllBuildingsVisited()) {
@@ -37,19 +40,20 @@ public class Tp1 {
             }
         }
 
-        loadOutput(args[1]);
+        // Creates the output file
+        loadOutput(outputFilePath);
     }
 
     // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the
     // building's position
-    private static void initialLoad() {
-        // Fills the Truck
+    private static void initialLoad(Truck truck, Warehouse warehouse) {
         Building maxBoxesBuilding = warehouse.maxBoxes();
         truck.setCoords(maxBoxesBuilding);
 
         // Updates the number of boxes left in all the buildings of the warehouse
         warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() - maxBoxesBuilding.getNBoxes());
 
+        // Fills the truck with the boxes
         truck.addBoxes(maxBoxesBuilding);
 
         // Sets building as visited
@@ -64,6 +68,7 @@ public class Tp1 {
         // Updates the number of boxes left in all the buildings of the warehouse
         warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() - closestBuilding.getNBoxes());
 
+        // Fills the truck with the boxes
         truck.addBoxes(closestBuilding);
         closestBuilding.setVisited(true);
         warehouse.getVisitedBuildings().add(closestBuilding);
@@ -80,7 +85,8 @@ public class Tp1 {
         }
     }
 
-    private static void parse()throws FileNotFoundException{
+    // Parses the input file
+    private static void parse(File inputFile) throws FileNotFoundException {
         if(inputFile == null){
             throw new FileNotFoundException("Input file not found");
         }
@@ -96,7 +102,7 @@ public class Tp1 {
             System.err.println("The number of boxes to be loaded into the truck exceeds its maximum capacity.");
         }
 
-        // Reads file and fills Arraylist with the buildings
+        // Parses the buildings data from the file
         while (scanner.hasNext()){
             String[] line = scanner.nextLine().split(" ");
             if (line.length == 2) {
@@ -110,7 +116,7 @@ public class Tp1 {
         }
     }
 
-    // Creates a building with the 2 entries from the input file
+    // Creates a building with their position and their number of boxes according to the file
     private static void newBuilding(String[] line) {
         String coords = line[1].substring(1, line[1].length() - 1);
         double latitude = Double.parseDouble(coords.split(",")[0]);
@@ -120,9 +126,10 @@ public class Tp1 {
         warehouse.setNBoxesLeft(warehouse.getNBoxesLeft() + nBoxes);
     }
 
-    private static void loadOutput(String string){
+    // Outputs the results in a file
+    private static void loadOutput(String outputFilePath) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(string));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
             writer.write("Truck Position: (" + truck.getCoords().getLatitude() + "," +
                     truck.getCoords().getLongitude() + ")");
             while(!warehouse.getVisitedBuildings().isEmpty()){

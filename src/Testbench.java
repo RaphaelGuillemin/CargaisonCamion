@@ -13,8 +13,8 @@ public class Testbench {
         String[] num = ("" + tempsFinal).split("[.]");
         System.out.println(num[0] + "," + num[1]);
       }
-    }
 
+    }
   }
 
 }
