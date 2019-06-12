@@ -38,8 +38,6 @@ public class Tp1 {
         }
 
         loadOutput(args[1]);
-        System.out.println(buildings.size());
-        System.out.println(truck.getNBoxesToTransport());
     }
 
     // Loads the truck for the first time at the building with the most boxes and sets the truck's position to the

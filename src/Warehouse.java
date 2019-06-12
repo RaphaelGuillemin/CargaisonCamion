@@ -65,8 +65,8 @@ public class Warehouse {
             i++;
         }
         if (i == buildings.size()) {
-            System.err.println("All buildings have been visited. There are not enough boxes in the warehouse to load " +
-                    "the truck to desired amount.");
+            //System.err.println("All buildings have been visited. There are not enough boxes in the warehouse to load " +
+                    //"the truck to desired amount.");
             return -1;
         }
         return i - 1;
